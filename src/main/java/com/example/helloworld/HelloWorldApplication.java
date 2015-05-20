@@ -43,7 +43,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
         LOGGER.info("Initializing configuration");
         bootstrap.addCommand(new RenderCommand());
-        bootstrap.addBundle(new AssetsBundle());
+        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
         bootstrap.addBundle(new MigrationsBundle<HelloWorldConfiguration>() {
             @Override
             public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
@@ -63,6 +63,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
 
+        environment.jersey().setUrlPattern("/api/*");
         environment.jersey().register(new BasicAuthProvider<>(new ExampleAuthenticator(),
                                                               "SUPER SECRET STUFF"));
         environment.jersey().register(new HelloWorldResource(template));
