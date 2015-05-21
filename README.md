@@ -18,8 +18,20 @@ A few changes were necessary to make the app deployable to Heroku
 * Minor database schema changes
   * Fix a couple problems (maybe due to using postgres) with ID generation and camel-case column names.
 
-# Running the App Locally
+# Running the App Locally on Mac
 You can now run the example with the following commands.
+
+* Install [postgresapp][4]
+
+* Create database, user and assign permissions
+
+        create database dropwizard_example;
+        create user dropwizard with password 'password';
+        grant all on database dropwizard_example to dropwizard;
+
+* Set environment variable DATABASE_URL
+
+        export DATABASE_URL=postgres://dropwizard:password:@localhost:5432/dropwizard_example
 
 * Build the example
 
@@ -31,15 +43,15 @@ You can now run the example with the following commands.
 	
 * Hit the example in your browser
 
-	`http://localhost:5000/hello-world`
+	`http://localhost:5000/api/hello-world`
 	
 * Post data into the application
 
-        curl -H "Content-Type: application/json" -X POST -d '{"fullName":"Other Person","jobTitle":"Other Title"}' http://localhost:8080/people
+        curl -H "Content-Type: application/json" -X POST -d '{"fullName":"Other Person","jobTitle":"Other Title"}' http://localhost:8080/api/people
 	 
 * See the data you posted
 
-	`http://localhost:8080/people`
+	`http://localhost:8080/api/people`
 
 # Deploying to Heroku
 
@@ -84,3 +96,4 @@ If you need more information, see the [Heroku setup][3].
 [1]: https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example
 [2]: https://toolbelt.heroku.com/
 [3]: https://devcenter.heroku.com/articles/quickstart
+[4]: http://postgresapp.com/
